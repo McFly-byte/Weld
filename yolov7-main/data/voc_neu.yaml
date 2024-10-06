@@ -1,0 +1,5 @@
+train: D:\.HIT\master_1\Weld\yolov7-main\datasets\NEU-DET\train\images
+val: D:\.HIT\master_1\Weld\yolov7-main\datasets\NEU-DET\valid\images
+
+nc: 6
+names: ['crazing', 'inclusion', 'patches', 'pitted_surface', 'rolled-in_scale', 'scratches']
