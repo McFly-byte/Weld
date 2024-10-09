@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1078</width>
-    <height>829</height>
+    <width>1112</width>
+    <height>779</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>WeldSentry</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>C:/Users/mcfly/.designer/backup/runs/detect/exp/patches_5.jpg</normaloff>C:/Users/mcfly/.designer/backup/runs/detect/exp/patches_5.jpg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -179,7 +183,7 @@ padding-top: -8px;
           <enum>QTabWidget::Triangular</enum>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <property name="elideMode">
           <enum>Qt::ElideNone</enum>
@@ -865,6 +869,12 @@ QPushButton:pressed {
                </item>
                <item row="2" column="1">
                 <widget class="QLabel" name="label_auth_stat">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="text">
                   <string>Temp</string>
                  </property>
@@ -1024,7 +1034,7 @@ QPushButton:pressed {
                 </spacer>
                </item>
                <item row="2" column="1">
-                <widget class="QPushButton" name="btn_start">
+                <widget class="QStackedWidget" name="stackedWidget_2">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1033,12 +1043,37 @@ QPushButton:pressed {
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>100</width>
-                   <height>40</height>
+                   <width>120</width>
+                   <height>60</height>
                   </size>
                  </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton {
+                 <property name="maximumSize">
+                  <size>
+                   <width>120</width>
+                   <height>60</height>
+                  </size>
+                 </property>
+                 <property name="currentIndex">
+                  <number>0</number>
+                 </property>
+                 <widget class="QWidget" name="page">
+                  <layout class="QHBoxLayout" name="horizontalLayout_12">
+                   <item>
+                    <widget class="QPushButton" name="btn_start">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>100</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton {
         background-color: #0061FE;
        	border-style: solid;
         border-width: 1px;
@@ -1064,10 +1099,65 @@ QPushButton:pressed  {
     }
 
     </string>
-                 </property>
-                 <property name="text">
-                  <string>开始</string>
-                 </property>
+                     </property>
+                     <property name="text">
+                      <string>开始</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="page_2">
+                  <layout class="QHBoxLayout" name="horizontalLayout_13">
+                   <item>
+                    <widget class="QPushButton" name="btn_pause">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>100</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton {
+        background-color: brown;
+       	border-style: solid;
+        border-width: 1px;
+        border-radius: 4px; 
+		/* 边界 **/
+        border-top-color: white ;
+		border-left-color: white ;
+		border-right-color: black; 
+		border-bottom-color: black; 
+		
+		color: white;
+		font: bold 18px;
+    font-family: &quot;Microsoft YaHei&quot;;
+		
+    }
+/* 鼠标点击时的样式 */
+QPushButton:pressed  {
+        background-color: #da7171; /* 悬停时的背景颜色 */
+        position: relative; /* 相对定位 */
+        left: -2px; /* 向左轻微移动 */
+        top: -2px; /* 向上轻微移动 */
+        /* 通过改变left和top值模拟抖动效果 */
+    }
+
+    </string>
+                     </property>
+                     <property name="text">
+                      <string>暂停/结束</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
                 </widget>
                </item>
               </layout>
@@ -1149,20 +1239,20 @@ QPushButton:pressed  {
                     <number>3</number>
                    </property>
                    <item row="1" column="0">
-                    <widget class="QLabel" name="lb2">
+                    <widget class="QLabel" name="lb1">
                      <property name="text">
                       <string>生产批次号</string>
                      </property>
                     </widget>
                    </item>
                    <item row="2" column="0">
-                    <widget class="QLabel" name="lb3">
+                    <widget class="QLabel" name="lb2">
                      <property name="text">
                       <string>负责人</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="3" column="0">
+                   <item row="4" column="0">
                     <widget class="QLabel" name="lb4">
                      <property name="text">
                       <string>检测路径</string>
@@ -1175,7 +1265,7 @@ QPushButton:pressed  {
                    <item row="2" column="1">
                     <widget class="QLineEdit" name="le2"/>
                    </item>
-                   <item row="3" column="1">
+                   <item row="4" column="1">
                     <widget class="QFrame" name="frm_photo">
                      <property name="frameShape">
                       <enum>QFrame::StyledPanel</enum>
@@ -1200,7 +1290,7 @@ QPushButton:pressed  {
                        <number>0</number>
                       </property>
                       <item>
-                       <widget class="QLineEdit" name="le_photo"/>
+                       <widget class="QLineEdit" name="le4"/>
                       </item>
                       <item>
                        <widget class="QPushButton" name="btn_photo">
@@ -1239,7 +1329,7 @@ QPushButton:pressed  {
     </string>
                         </property>
                         <property name="text">
-                         <string>打开路径</string>
+                         <string>选择</string>
                         </property>
                        </widget>
                       </item>
@@ -1247,9 +1337,97 @@ QPushButton:pressed  {
                     </widget>
                    </item>
                    <item row="0" column="0">
-                    <widget class="QLabel" name="lb1">
+                    <widget class="QLabel" name="lb0">
                      <property name="text">
                       <string>信息</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="lb3">
+                     <property name="text">
+                      <string>型号</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QLineEdit" name="le3"/>
+                   </item>
+                   <item row="5" column="1">
+                    <widget class="QFrame" name="frm_photo2">
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_11">
+                      <property name="spacing">
+                       <number>6</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QLineEdit" name="le5"/>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="btn_photo2">
+                        <property name="minimumSize">
+                         <size>
+                          <width>50</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">QPushButton {
+        background-color: #0061FE;
+       	border-style: solid;
+        border-width: 1px;
+        border-radius: 4px; 
+		/* 边界 **/
+        border-top-color: white ;
+		border-left-color: white ;
+		border-right-color: black; 
+		border-bottom-color: black; 
+		
+		color: white;
+		font:  9px;
+    font-family: &quot;Microsoft YaHei&quot;;
+		
+    }
+/* 鼠标点击时的样式 */
+QPushButton:pressed  {
+        background-color: #A7C6FF; /* 悬停时的背景颜色 */
+        position: relative; /* 相对定位 */
+        left: -2px; /* 向左轻微移动 */
+        top: -2px; /* 向上轻微移动 */
+        /* 通过改变left和top值模拟抖动效果 */
+    }
+
+    </string>
+                        </property>
+                        <property name="text">
+                         <string>选择</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item row="5" column="0">
+                    <widget class="QLabel" name="lb5">
+                     <property name="text">
+                      <string>结果路径</string>
                      </property>
                     </widget>
                    </item>
@@ -1316,10 +1494,10 @@ QPushButton:pressed  {
                     </widget>
                    </item>
                    <item row="2" column="1">
-                    <widget class="QLineEdit" name="le4"/>
+                    <widget class="QLineEdit" name="le_para2"/>
                    </item>
                    <item row="1" column="1">
-                    <widget class="QLineEdit" name="le3"/>
+                    <widget class="QLineEdit" name="le_para1"/>
                    </item>
                   </layout>
                  </item>
@@ -1458,7 +1636,7 @@ QPushButton:pressed  {
                <widget class="QWidget" name="page_show">
                 <layout class="QVBoxLayout" name="verticalLayout_7">
                  <item>
-                  <widget class="QLabel" name="label_9">
+                  <widget class="QLabel" name="lb_show">
                    <property name="text">
                     <string/>
                    </property>
@@ -1479,7 +1657,7 @@ QPushButton:pressed  {
               </widget>
              </item>
              <item>
-              <widget class="QTextBrowser" name="textBrowser_2"/>
+              <widget class="QTextBrowser" name="terminal"/>
              </item>
             </layout>
            </widget>
@@ -1522,7 +1700,7 @@ QPushButton:pressed  {
             </property>
             <property name="maximumSize">
              <size>
-              <width>360</width>
+              <width>16777215</width>
               <height>16777215</height>
              </size>
             </property>
@@ -1552,15 +1730,40 @@ QPushButton:pressed  {
               <number>0</number>
              </property>
              <item>
-              <widget class="QTableWidget" name="tableWidget">
+              <widget class="QTableWidget" name="tb_bc">
                <property name="styleSheet">
-                <string notr="true">font-family: &quot;Microsoft Yahei&quot;;
+                <string notr="true">QTableWidget {
+        gridline-color: black;
+		font-family: &quot;Microsoft Yahei&quot;;
+    }
+    QTableWidget::item:hover {
+        background-color: #0061FE;
+    }
+    QTableWidget QTableCornerButton::section {
+        background: transparent;
+    }
+    QHeaderView::section {
+        background-color: white;
+    }
+
+
 
 </string>
                </property>
+               <property name="cornerButtonEnabled">
+                <bool>true</bool>
+               </property>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
                <column>
                 <property name="text">
                  <string>序号</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>型号</string>
                 </property>
                </column>
                <column>
@@ -1571,6 +1774,11 @@ QPushButton:pressed  {
                <column>
                 <property name="text">
                  <string>负责人</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>图像</string>
                 </property>
                </column>
                <column>
@@ -1586,16 +1794,43 @@ QPushButton:pressed  {
               </widget>
              </item>
              <item>
-              <widget class="QTableWidget" name="tableWidget_2">
+              <widget class="QTableWidget" name="tb_detail">
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
                  <height>250</height>
                 </size>
                </property>
+               <property name="styleSheet">
+                <string notr="true">QTableWidget {
+        gridline-color: black;
+		font-family: &quot;Microsoft Yahei&quot;;
+    }
+    QTableWidget::item:hover {
+        background-color: #0061FE;
+    }
+    QTableWidget QTableCornerButton::section {
+        background: transparent;
+    }
+    QHeaderView::section {
+        background-color: white;
+    }
+
+
+
+</string>
+               </property>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
                <column>
                 <property name="text">
                  <string>序号</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>图像</string>
                 </property>
                </column>
                <column>

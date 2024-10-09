@@ -14,13 +14,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1078, 829)
+        MainWindow.resize(1112, 779)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setMinimumSize(QtCore.QSize(1040, 720))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("C:/Users/mcfly/.designer/backup/runs/detect/exp/patches_5.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -484,6 +487,11 @@ class Ui_MainWindow(object):
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_1.addItem(spacerItem2, 1, 0, 1, 1)
         self.label_auth_stat = QtWidgets.QLabel(self.frame_console)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_auth_stat.sizePolicy().hasHeightForWidth())
+        self.label_auth_stat.setSizePolicy(sizePolicy)
         self.label_auth_stat.setAlignment(QtCore.Qt.AlignCenter)
         self.label_auth_stat.setObjectName("label_auth_stat")
         self.gridLayout_1.addWidget(self.label_auth_stat, 2, 1, 1, 1)
@@ -516,7 +524,20 @@ class Ui_MainWindow(object):
         self.gridLayout_3.addItem(spacerItem10, 2, 2, 1, 1)
         spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_3.addItem(spacerItem11, 2, 0, 1, 1)
-        self.btn_start = QtWidgets.QPushButton(self.frame_console)
+        self.stackedWidget_2 = QtWidgets.QStackedWidget(self.frame_console)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.stackedWidget_2.sizePolicy().hasHeightForWidth())
+        self.stackedWidget_2.setSizePolicy(sizePolicy)
+        self.stackedWidget_2.setMinimumSize(QtCore.QSize(120, 60))
+        self.stackedWidget_2.setMaximumSize(QtCore.QSize(120, 60))
+        self.stackedWidget_2.setObjectName("stackedWidget_2")
+        self.page = QtWidgets.QWidget()
+        self.page.setObjectName("page")
+        self.horizontalLayout_12 = QtWidgets.QHBoxLayout(self.page)
+        self.horizontalLayout_12.setObjectName("horizontalLayout_12")
+        self.btn_start = QtWidgets.QPushButton(self.page)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -550,7 +571,49 @@ class Ui_MainWindow(object):
 "\n"
 "    ")
         self.btn_start.setObjectName("btn_start")
-        self.gridLayout_3.addWidget(self.btn_start, 2, 1, 1, 1)
+        self.horizontalLayout_12.addWidget(self.btn_start)
+        self.stackedWidget_2.addWidget(self.page)
+        self.page_2 = QtWidgets.QWidget()
+        self.page_2.setObjectName("page_2")
+        self.horizontalLayout_13 = QtWidgets.QHBoxLayout(self.page_2)
+        self.horizontalLayout_13.setObjectName("horizontalLayout_13")
+        self.btn_pause = QtWidgets.QPushButton(self.page_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_pause.sizePolicy().hasHeightForWidth())
+        self.btn_pause.setSizePolicy(sizePolicy)
+        self.btn_pause.setMinimumSize(QtCore.QSize(100, 40))
+        self.btn_pause.setStyleSheet("QPushButton {\n"
+"        background-color: brown;\n"
+"           border-style: solid;\n"
+"        border-width: 1px;\n"
+"        border-radius: 4px; \n"
+"        /* 边界 **/\n"
+"        border-top-color: white ;\n"
+"        border-left-color: white ;\n"
+"        border-right-color: black; \n"
+"        border-bottom-color: black; \n"
+"        \n"
+"        color: white;\n"
+"        font: bold 18px;\n"
+"    font-family: \"Microsoft YaHei\";\n"
+"        \n"
+"    }\n"
+"/* 鼠标点击时的样式 */\n"
+"QPushButton:pressed  {\n"
+"        background-color: #da7171; /* 悬停时的背景颜色 */\n"
+"        position: relative; /* 相对定位 */\n"
+"        left: -2px; /* 向左轻微移动 */\n"
+"        top: -2px; /* 向上轻微移动 */\n"
+"        /* 通过改变left和top值模拟抖动效果 */\n"
+"    }\n"
+"\n"
+"    ")
+        self.btn_pause.setObjectName("btn_pause")
+        self.horizontalLayout_13.addWidget(self.btn_pause)
+        self.stackedWidget_2.addWidget(self.page_2)
+        self.gridLayout_3.addWidget(self.stackedWidget_2, 2, 1, 1, 1)
         self.verticalLayout_3.addLayout(self.gridLayout_3)
         self.horizontalLayout_7.addWidget(self.frame_console)
         self.frame_sep1 = QtWidgets.QFrame(self.frame_main)
@@ -587,15 +650,15 @@ class Ui_MainWindow(object):
         self.formLayout_3.setHorizontalSpacing(10)
         self.formLayout_3.setVerticalSpacing(20)
         self.formLayout_3.setObjectName("formLayout_3")
+        self.lb1 = QtWidgets.QLabel(self.page_input)
+        self.lb1.setObjectName("lb1")
+        self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.lb1)
         self.lb2 = QtWidgets.QLabel(self.page_input)
         self.lb2.setObjectName("lb2")
-        self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.lb2)
-        self.lb3 = QtWidgets.QLabel(self.page_input)
-        self.lb3.setObjectName("lb3")
-        self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.lb3)
+        self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.lb2)
         self.lb4 = QtWidgets.QLabel(self.page_input)
         self.lb4.setObjectName("lb4")
-        self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.lb4)
+        self.formLayout_3.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.lb4)
         self.le1 = QtWidgets.QLineEdit(self.page_input)
         self.le1.setObjectName("le1")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.le1)
@@ -610,9 +673,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_9.setSpacing(6)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        self.le_photo = QtWidgets.QLineEdit(self.frm_photo)
-        self.le_photo.setObjectName("le_photo")
-        self.horizontalLayout_9.addWidget(self.le_photo)
+        self.le4 = QtWidgets.QLineEdit(self.frm_photo)
+        self.le4.setObjectName("le4")
+        self.horizontalLayout_9.addWidget(self.le4)
         self.btn_photo = QtWidgets.QPushButton(self.frm_photo)
         self.btn_photo.setMinimumSize(QtCore.QSize(50, 20))
         self.btn_photo.setStyleSheet("QPushButton {\n"
@@ -643,10 +706,61 @@ class Ui_MainWindow(object):
 "    ")
         self.btn_photo.setObjectName("btn_photo")
         self.horizontalLayout_9.addWidget(self.btn_photo)
-        self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.frm_photo)
-        self.lb1 = QtWidgets.QLabel(self.page_input)
-        self.lb1.setObjectName("lb1")
-        self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.lb1)
+        self.formLayout_3.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.frm_photo)
+        self.lb0 = QtWidgets.QLabel(self.page_input)
+        self.lb0.setObjectName("lb0")
+        self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.lb0)
+        self.lb3 = QtWidgets.QLabel(self.page_input)
+        self.lb3.setObjectName("lb3")
+        self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.lb3)
+        self.le3 = QtWidgets.QLineEdit(self.page_input)
+        self.le3.setObjectName("le3")
+        self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.le3)
+        self.frm_photo2 = QtWidgets.QFrame(self.page_input)
+        self.frm_photo2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frm_photo2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frm_photo2.setObjectName("frm_photo2")
+        self.horizontalLayout_11 = QtWidgets.QHBoxLayout(self.frm_photo2)
+        self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_11.setSpacing(6)
+        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        self.le5 = QtWidgets.QLineEdit(self.frm_photo2)
+        self.le5.setObjectName("le5")
+        self.horizontalLayout_11.addWidget(self.le5)
+        self.btn_photo2 = QtWidgets.QPushButton(self.frm_photo2)
+        self.btn_photo2.setMinimumSize(QtCore.QSize(50, 20))
+        self.btn_photo2.setStyleSheet("QPushButton {\n"
+"        background-color: #0061FE;\n"
+"           border-style: solid;\n"
+"        border-width: 1px;\n"
+"        border-radius: 4px; \n"
+"        /* 边界 **/\n"
+"        border-top-color: white ;\n"
+"        border-left-color: white ;\n"
+"        border-right-color: black; \n"
+"        border-bottom-color: black; \n"
+"        \n"
+"        color: white;\n"
+"        font:  9px;\n"
+"    font-family: \"Microsoft YaHei\";\n"
+"        \n"
+"    }\n"
+"/* 鼠标点击时的样式 */\n"
+"QPushButton:pressed  {\n"
+"        background-color: #A7C6FF; /* 悬停时的背景颜色 */\n"
+"        position: relative; /* 相对定位 */\n"
+"        left: -2px; /* 向左轻微移动 */\n"
+"        top: -2px; /* 向上轻微移动 */\n"
+"        /* 通过改变left和top值模拟抖动效果 */\n"
+"    }\n"
+"\n"
+"    ")
+        self.btn_photo2.setObjectName("btn_photo2")
+        self.horizontalLayout_11.addWidget(self.btn_photo2)
+        self.formLayout_3.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.frm_photo2)
+        self.lb5 = QtWidgets.QLabel(self.page_input)
+        self.lb5.setObjectName("lb5")
+        self.formLayout_3.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.lb5)
         self.verticalLayout_5.addLayout(self.formLayout_3)
         self.frame_18 = QtWidgets.QFrame(self.page_input)
         self.frame_18.setMinimumSize(QtCore.QSize(100, 20))
@@ -670,12 +784,12 @@ class Ui_MainWindow(object):
         self.lb_para2 = QtWidgets.QLabel(self.page_input)
         self.lb_para2.setObjectName("lb_para2")
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.lb_para2)
-        self.le4 = QtWidgets.QLineEdit(self.page_input)
-        self.le4.setObjectName("le4")
-        self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.le4)
-        self.le3 = QtWidgets.QLineEdit(self.page_input)
-        self.le3.setObjectName("le3")
-        self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.le3)
+        self.le_para2 = QtWidgets.QLineEdit(self.page_input)
+        self.le_para2.setObjectName("le_para2")
+        self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.le_para2)
+        self.le_para1 = QtWidgets.QLineEdit(self.page_input)
+        self.le_para1.setObjectName("le_para1")
+        self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.le_para1)
         self.verticalLayout_5.addLayout(self.formLayout_2)
         spacerItem12 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_5.addItem(spacerItem12)
@@ -756,10 +870,10 @@ class Ui_MainWindow(object):
         self.page_show.setObjectName("page_show")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.page_show)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
-        self.label_9 = QtWidgets.QLabel(self.page_show)
-        self.label_9.setText("")
-        self.label_9.setObjectName("label_9")
-        self.verticalLayout_7.addWidget(self.label_9)
+        self.lb_show = QtWidgets.QLabel(self.page_show)
+        self.lb_show.setText("")
+        self.lb_show.setObjectName("lb_show")
+        self.verticalLayout_7.addWidget(self.lb_show)
         self.stackedWidget.addWidget(self.page_show)
         self.verticalLayout_4.addWidget(self.stackedWidget)
         self.frame_19 = QtWidgets.QFrame(self.frame_im)
@@ -767,9 +881,9 @@ class Ui_MainWindow(object):
         self.frame_19.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.frame_19.setObjectName("frame_19")
         self.verticalLayout_4.addWidget(self.frame_19)
-        self.textBrowser_2 = QtWidgets.QTextBrowser(self.frame_im)
-        self.textBrowser_2.setObjectName("textBrowser_2")
-        self.verticalLayout_4.addWidget(self.textBrowser_2)
+        self.terminal = QtWidgets.QTextBrowser(self.frame_im)
+        self.terminal.setObjectName("terminal")
+        self.verticalLayout_4.addWidget(self.terminal)
         self.horizontalLayout_7.addWidget(self.frame_im)
         self.frame_sep2 = QtWidgets.QFrame(self.frame_main)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
@@ -785,7 +899,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.addWidget(self.frame_sep2)
         self.frame_xls = QtWidgets.QFrame(self.frame_main)
         self.frame_xls.setMinimumSize(QtCore.QSize(360, 0))
-        self.frame_xls.setMaximumSize(QtCore.QSize(360, 16777215))
+        self.frame_xls.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.frame_xls.setStyleSheet("background-color: mistyrose ;")
         self.frame_xls.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_xls.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -794,36 +908,76 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setSpacing(6)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.tableWidget = QtWidgets.QTableWidget(self.frame_xls)
-        self.tableWidget.setStyleSheet("font-family: \"Microsoft Yahei\";\n"
+        self.tb_bc = QtWidgets.QTableWidget(self.frame_xls)
+        self.tb_bc.setStyleSheet("QTableWidget {\n"
+"        gridline-color: black;\n"
+"        font-family: \"Microsoft Yahei\";\n"
+"    }\n"
+"    QTableWidget::item:hover {\n"
+"        background-color: #0061FE;\n"
+"    }\n"
+"    QTableWidget QTableCornerButton::section {\n"
+"        background: transparent;\n"
+"    }\n"
+"    QHeaderView::section {\n"
+"        background-color: white;\n"
+"    }\n"
+"\n"
+"\n"
 "\n"
 "")
-        self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(5)
-        self.tableWidget.setRowCount(0)
+        self.tb_bc.setCornerButtonEnabled(True)
+        self.tb_bc.setObjectName("tb_bc")
+        self.tb_bc.setColumnCount(7)
+        self.tb_bc.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(0, item)
+        self.tb_bc.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(1, item)
+        self.tb_bc.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(2, item)
+        self.tb_bc.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(3, item)
+        self.tb_bc.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(4, item)
-        self.verticalLayout_6.addWidget(self.tableWidget)
-        self.tableWidget_2 = QtWidgets.QTableWidget(self.frame_xls)
-        self.tableWidget_2.setMaximumSize(QtCore.QSize(16777215, 250))
-        self.tableWidget_2.setObjectName("tableWidget_2")
-        self.tableWidget_2.setColumnCount(3)
-        self.tableWidget_2.setRowCount(0)
+        self.tb_bc.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(0, item)
+        self.tb_bc.setHorizontalHeaderItem(5, item)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(1, item)
+        self.tb_bc.setHorizontalHeaderItem(6, item)
+        self.tb_bc.verticalHeader().setVisible(False)
+        self.verticalLayout_6.addWidget(self.tb_bc)
+        self.tb_detail = QtWidgets.QTableWidget(self.frame_xls)
+        self.tb_detail.setMaximumSize(QtCore.QSize(16777215, 250))
+        self.tb_detail.setStyleSheet("QTableWidget {\n"
+"        gridline-color: black;\n"
+"        font-family: \"Microsoft Yahei\";\n"
+"    }\n"
+"    QTableWidget::item:hover {\n"
+"        background-color: #0061FE;\n"
+"    }\n"
+"    QTableWidget QTableCornerButton::section {\n"
+"        background: transparent;\n"
+"    }\n"
+"    QHeaderView::section {\n"
+"        background-color: white;\n"
+"    }\n"
+"\n"
+"\n"
+"\n"
+"")
+        self.tb_detail.setObjectName("tb_detail")
+        self.tb_detail.setColumnCount(4)
+        self.tb_detail.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(2, item)
-        self.verticalLayout_6.addWidget(self.tableWidget_2)
+        self.tb_detail.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tb_detail.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tb_detail.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tb_detail.setHorizontalHeaderItem(3, item)
+        self.tb_detail.verticalHeader().setVisible(False)
+        self.verticalLayout_6.addWidget(self.tb_detail)
         self.horizontalLayout_7.addWidget(self.frame_xls)
         self.verticalLayout_2.addWidget(self.frame_main)
         self.label_head.raise_()
@@ -833,13 +987,14 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.tab.setCurrentIndex(3)
+        self.tab.setCurrentIndex(0)
+        self.stackedWidget_2.setCurrentIndex(0)
         self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "WeldSentry"))
         self.label_head.setText(_translate("MainWindow", "大型金属焊接接口缺陷检测系统"))
         self.pushButton_2.setText(_translate("MainWindow", "授权密钥查看"))
         self.pushButton.setText(_translate("MainWindow", "授权密钥验证"))
@@ -853,29 +1008,39 @@ class Ui_MainWindow(object):
         self.tab.setTabText(self.tab.indexOf(self.tab_4), _translate("MainWindow", "技术支持"))
         self.label_auth_stat.setText(_translate("MainWindow", "Temp"))
         self.btn_start.setText(_translate("MainWindow", "开始"))
-        self.lb2.setText(_translate("MainWindow", "生产批次号"))
-        self.lb3.setText(_translate("MainWindow", "负责人"))
+        self.btn_pause.setText(_translate("MainWindow", "暂停/结束"))
+        self.lb1.setText(_translate("MainWindow", "生产批次号"))
+        self.lb2.setText(_translate("MainWindow", "负责人"))
         self.lb4.setText(_translate("MainWindow", "检测路径"))
-        self.btn_photo.setText(_translate("MainWindow", "打开路径"))
-        self.lb1.setText(_translate("MainWindow", "信息"))
+        self.btn_photo.setText(_translate("MainWindow", "选择"))
+        self.lb0.setText(_translate("MainWindow", "信息"))
+        self.lb3.setText(_translate("MainWindow", "型号"))
+        self.btn_photo2.setText(_translate("MainWindow", "选择"))
+        self.lb5.setText(_translate("MainWindow", "结果路径"))
         self.lb_para0.setText(_translate("MainWindow", "参数"))
         self.lb_para1.setText(_translate("MainWindow", "参数1"))
         self.lb_para2.setText(_translate("MainWindow", "参数2"))
         self.btn_confirm.setText(_translate("MainWindow", "确认"))
         self.btn_cancel.setText(_translate("MainWindow", "取消"))
-        item = self.tableWidget.horizontalHeaderItem(0)
+        item = self.tb_bc.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "序号"))
-        item = self.tableWidget.horizontalHeaderItem(1)
+        item = self.tb_bc.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "型号"))
+        item = self.tb_bc.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "生产批次号"))
-        item = self.tableWidget.horizontalHeaderItem(2)
+        item = self.tb_bc.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "负责人"))
-        item = self.tableWidget.horizontalHeaderItem(3)
+        item = self.tb_bc.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "图像"))
+        item = self.tb_bc.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "检测时间"))
-        item = self.tableWidget.horizontalHeaderItem(4)
+        item = self.tb_bc.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "是否合格"))
-        item = self.tableWidget_2.horizontalHeaderItem(0)
+        item = self.tb_detail.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "序号"))
-        item = self.tableWidget_2.horizontalHeaderItem(1)
+        item = self.tb_detail.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "图像"))
+        item = self.tb_detail.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "缺陷类型"))
-        item = self.tableWidget_2.horizontalHeaderItem(2)
+        item = self.tb_detail.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "详细信息"))

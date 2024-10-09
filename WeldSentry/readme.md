@@ -7,3 +7,6 @@
   - weight:   权重
 - detect.py: 运行前设置好weight和source，结果在runs/detect/exp里找
     > python detect.py --weight YOLOv7/weight/best.pt --source YOLOv7/images/inclusion_3.jpg
+
+- weldsentry_window ： 控件拖出来的界面
+- gui.py : 在界面上加入signal/slot
