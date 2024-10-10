@@ -20,8 +20,6 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
 
-
-
 # 运训测试： python detect.py --weights yolov7.pt --conf 0.25 --img-size 640 --source inference/images/test2.jpg
 
 def detect(weights,source,project, callback=None):

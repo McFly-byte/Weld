@@ -4,13 +4,17 @@
 # CREATE TIME: 2024/10/8 20:27
 # DESCRIPTION:  在weldsentry_window.ui的基础上实现信号/槽
 import os
+import sqlite3
 from datetime import datetime
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QTableWidgetItem, QAbstractItemView
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
+from PyQt5 import QtSql
+from PyQt5.QtSql import QSqlQuery
 
-import subprocess
+
+import threading
 
 from weldsentry_window import Ui_MainWindow
 from detect import detect
@@ -18,19 +22,37 @@ from detect import detect
 # 多线程解决耗时程序卡gui主线程
 class DetectionThread(QThread):
     finished_signal = pyqtSignal()
-    update_table_signal = pyqtSignal(object)  # 信号用于发送单个结果到主界面
+    update_table_signal = pyqtSignal(object)  # 通知更新table
+    # pause_signal = pyqtSignal()  # 信号用于通知线程暂停
+    # resume_signal = pyqtSignal()  # 信号用于通知线程恢复
     def __init__(self, weight, source, project):
         super().__init__()
         self.weight = weight
         self.source = source
         self.project = project
+        self.paused = False
+        self.pause_event = threading.Event()
 
     def run(self):
         # 调用 detect 函数，并传递回调函数
         def callback(result):
+            self.pause_event.wait()  # 如果线程被暂停，将在这里阻塞
+            print( "callback")
             self.update_table_signal.emit(result)  # 发送信号到主界面
+        self.pause_event.set()
         detect(self.weight, self.source, self.project, callback=callback)
         self.finished_signal.emit()  # 操作完成后发送信号
+
+    def pause(self):
+        self.paused = True
+        self.pause_event.clear()  # 清除事件，使线程暂停
+
+    def resume(self):
+        self.paused = False
+        self.pause_event.set()  # 设置事件，使线程恢复
+
+# 数据库文件
+DATABASE_FILENAME = 'sentry.db'
 
 class Window(QMainWindow, Ui_MainWindow):
     weight = ""
@@ -50,6 +72,14 @@ class Window(QMainWindow, Ui_MainWindow):
         self.tb_bc.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.lb_show.setPixmap(QPixmap())  # 初始为空
 
+        # detect线程
+        self.detection_thread = DetectionThread(self.weight, self.source, self.project)
+
+        # 数据库
+        self.conn = sqlite3.connect(DATABASE_FILENAME)
+        self.cursor = self.conn.cursor()
+        self.create_tables_if_not_exist()
+
         # 连接信号和槽
         #done   btn_photo
         #done   btn_confirm
@@ -64,6 +94,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.btn_pause.clicked.connect(self.pause_or_stop)
         # self.stackedWidget_2.currentChanged.connect(self.run_detect)
         self.tb_detail.cellClicked.connect(self.on_cell_clicked)
+        # self.btn_pause.clicked.connect(self.toggle_thread)
 
 ##### 1. 实现槽函数
     # 选择source打开路径
@@ -114,6 +145,8 @@ class Window(QMainWindow, Ui_MainWindow):
 
     # 运行
     def run_model(self):
+        self.tb_bc.clear()
+        self.tb_detail.clear()
         #TODO 如果没有输入则跑default数据，弹窗提示
         #TODO 加载动画
         #done stack切换
@@ -125,14 +158,15 @@ class Window(QMainWindow, Ui_MainWindow):
         self.weight = "YOLOv7/weight/best.pt"
         self.source = self.le4.text() if self.le4.text() else "YOLOv7/images"
         self.project = self.le5.text() if self.le5.text() else "runs/detect"
-        #done 创建并启动线程
-        self.thread = DetectionThread(self.weight, self.source, self.project)
-        self.thread.update_table_signal.connect(self.update_table_slot)
-        self.thread.finished_signal.connect(self.on_detection_finished)
-        self.thread.start()
+        #done 启动线程
+        self.detection_thread = DetectionThread(self.weight, self.source, self.project)
+        self.detection_thread.update_table_signal.connect(self.update_table_slot)
+        self.detection_thread.finished_signal.connect(self.on_detection_finished)
+        self.detection_thread.start()
 
     #  将单个结果添加到QTableWidget中，同时向tb_bc和tb_detail添加数据
     def update_table_slot(self, result):
+        print( "update_table_slot")
         bc, dt = [], []
         nbc = self.tb_bc.rowCount()
         nr = self.tb_detail.rowCount()
@@ -165,7 +199,7 @@ class Window(QMainWindow, Ui_MainWindow):
                 tmp += result[i]
             # print( tmp )
             # print( self.string_combination(tmp) )
-            dt.append(self.string_combination(tmp))  # figure
+            dt.append(self.string_combination(tmp))
             dt.append(tmp)
             self.addRow_detail(dt)
 
@@ -185,12 +219,13 @@ class Window(QMainWindow, Ui_MainWindow):
         self.exp_path = max(subfolders, key=lambda x: os.path.getmtime(x))
         # 用不着了，可以边detect边添加到表格 # tb_bc提供所有图片 需要合格信息
         # self.addTable_bc()
-        #todo 右下方表格展示图片路径 需要合格信息
 
 
     #TODO 暂停/停止
     def pause_or_stop(self):
-        print( "不可暂停")
+        self.toggle_thread()
+
+
 
     #figure  点击表格（内容为图片名）显示图片
     def on_cell_clicked(self, row, column):
@@ -207,6 +242,8 @@ class Window(QMainWindow, Ui_MainWindow):
             pixmap = QPixmap(image_path)
             if not pixmap.isNull():
                 self.lb_show.setPixmap(pixmap.scaled(self.lb_show.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+
 
 ##### 2. 工具性函数
     # 向tb_bc中添加一行数据
@@ -269,5 +306,39 @@ class Window(QMainWindow, Ui_MainWindow):
         # 使用反斜杠将单词连接起来，最后一个单词后不加反斜杠
         result = '\\'.join(words)
         return result
+
+    # 暂停
+    # todo 加入弹窗选择停止or暂停
+    def toggle_thread(self):
+        if self.detection_thread.paused:
+            self.detection_thread.resume()
+            self.btn_pause.setText('暂停/停止')
+        else:
+            self.detection_thread.pause()
+            self.btn_pause.setText('继续')
+
+    # 如不存在，创建新表
+    def create_tables_if_not_exist(self):
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS tb_bc (
+                index INTEGER PRIMARY KEY AUTOINCREMENT,
+                type TEXT,
+                batch_id TEXT,
+                chief TEXT,
+                photo TEXT,
+                detect_time TEXT,
+                is_qualified TEXT
+            )
+        ''')
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS tb_detail (
+                index INTEGER PRIMARY KEY AUTOINCREMENT,
+                photo TEXT,
+                defect TEXT,
+                detail TEXT
+            )
+        ''')
+
+        self.conn.commit()
 
 
