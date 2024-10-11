@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1112</width>
-    <height>779</height>
+    <width>1249</width>
+    <height>797</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -465,6 +465,51 @@ QPushButton:pressed {
                </widget>
               </item>
               <item>
+               <widget class="QPushButton" name="btn_his_defect">
+                <property name="maximumSize">
+                 <size>
+                  <width>150</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
+        background-color: #A7C6FF;
+       	border-style: solid;
+        border-width: 1px;
+        border-radius: 1px; /* 无圆角 */
+        border-top-color: white ;
+border-left-color: white ;
+border-right-color: black; 
+border-bottom-color: black; 
+        font:  12px;
+        min-width: 0; /* 允许按钮宽度自适应 */
+
+        padding: 6px;
+    }
+/* 鼠标点击时的样式 */
+QPushButton:pressed {
+        background-color: #74A7FF;
+        border-style: none;
+    }
+
+ /* 鼠标悬停时的样式 */
+    QPushButton:hover {
+        background-color: #A7C6FF; /* 悬停时的背景颜色 */
+        position: relative; /* 相对定位 */
+        left: -2px; /* 向左轻微移动 */
+        top: -2px; /* 向上轻微移动 */
+        /* 通过改变left和top值模拟抖动效果 */
+    }
+
+    </string>
+                </property>
+                <property name="text">
+                 <string>不合格品信息查看</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QPushButton" name="btn_his2">
                 <property name="maximumSize">
                  <size>
@@ -531,16 +576,6 @@ QPushButton:pressed {
               </item>
               <item>
                <widget class="QFrame" name="frm3">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QFrame" name="frm4">
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
@@ -1634,12 +1669,113 @@ QPushButton:pressed  {
                 </layout>
                </widget>
                <widget class="QWidget" name="page_show">
-                <layout class="QVBoxLayout" name="verticalLayout_7">
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
                  <item>
                   <widget class="QLabel" name="lb_show">
                    <property name="text">
                     <string/>
                    </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="frame">
+                   <property name="minimumSize">
+                    <size>
+                     <width>31</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>31</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_7">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QPushButton" name="btn_close">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>30</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton#btn_close {
+    background-color: #e81123; /* Windows 10 红色 */
+    border: none;
+    border-radius: 3px; /* 圆角大小 */
+    color: white; /* “X”图标的颜色 */
+    font-size: 16px; /* 图标大小 */
+    font-weight: bold;
+    padding: 2px; /* 内边距 */
+    text-align: center; /* 文本居中 */
+    width: 20px; /* 按钮宽度 */
+    height: 20px; /* 按钮高度 */
+    outline: none; /* 移除焦点时的轮廓线 */
+}
+
+QPushButton#btn_close:hover {
+    background-color: #f1707a; /* 鼠标悬停时的颜色 */
+}
+
+QPushButton#btn_close:pressed {
+    background-color: #d20f2a; /* 按钮按下时的颜色 */
+}
+</string>
+                      </property>
+                      <property name="text">
+                       <string>×</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="verticalSpacer_6">
+                      <property name="orientation">
+                       <enum>Qt::Vertical</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>20</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
                   </widget>
                  </item>
                 </layout>

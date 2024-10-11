@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1112, 779)
+        MainWindow.resize(1249, 797)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -274,6 +274,40 @@ class Ui_MainWindow(object):
 "    ")
         self.btn_his1.setObjectName("btn_his1")
         self.horizontalLayout_3.addWidget(self.btn_his1)
+        self.btn_his_defect = QtWidgets.QPushButton(self.frame_histo)
+        self.btn_his_defect.setMaximumSize(QtCore.QSize(150, 16777215))
+        self.btn_his_defect.setStyleSheet("QPushButton {\n"
+"        background-color: #A7C6FF;\n"
+"           border-style: solid;\n"
+"        border-width: 1px;\n"
+"        border-radius: 1px; /* 无圆角 */\n"
+"        border-top-color: white ;\n"
+"border-left-color: white ;\n"
+"border-right-color: black; \n"
+"border-bottom-color: black; \n"
+"        font:  12px;\n"
+"        min-width: 0; /* 允许按钮宽度自适应 */\n"
+"\n"
+"        padding: 6px;\n"
+"    }\n"
+"/* 鼠标点击时的样式 */\n"
+"QPushButton:pressed {\n"
+"        background-color: #74A7FF;\n"
+"        border-style: none;\n"
+"    }\n"
+"\n"
+" /* 鼠标悬停时的样式 */\n"
+"    QPushButton:hover {\n"
+"        background-color: #A7C6FF; /* 悬停时的背景颜色 */\n"
+"        position: relative; /* 相对定位 */\n"
+"        left: -2px; /* 向左轻微移动 */\n"
+"        top: -2px; /* 向上轻微移动 */\n"
+"        /* 通过改变left和top值模拟抖动效果 */\n"
+"    }\n"
+"\n"
+"    ")
+        self.btn_his_defect.setObjectName("btn_his_defect")
+        self.horizontalLayout_3.addWidget(self.btn_his_defect)
         self.btn_his2 = QtWidgets.QPushButton(self.frame_histo)
         self.btn_his2.setMaximumSize(QtCore.QSize(150, 16777215))
         self.btn_his2.setStyleSheet("QPushButton {\n"
@@ -323,11 +357,6 @@ class Ui_MainWindow(object):
         self.frm3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frm3.setObjectName("frm3")
         self.horizontalLayout_3.addWidget(self.frm3)
-        self.frm4 = QtWidgets.QFrame(self.frame_histo)
-        self.frm4.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frm4.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frm4.setObjectName("frm4")
-        self.horizontalLayout_3.addWidget(self.frm4)
         self.horizontalLayout_4.addWidget(self.frame_histo)
         self.tab.addTab(self.tab_3, "")
         self.tab_4 = QtWidgets.QWidget()
@@ -868,12 +897,57 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_input)
         self.page_show = QtWidgets.QWidget()
         self.page_show.setObjectName("page_show")
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.page_show)
-        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.horizontalLayout_14 = QtWidgets.QHBoxLayout(self.page_show)
+        self.horizontalLayout_14.setObjectName("horizontalLayout_14")
         self.lb_show = QtWidgets.QLabel(self.page_show)
         self.lb_show.setText("")
         self.lb_show.setObjectName("lb_show")
-        self.verticalLayout_7.addWidget(self.lb_show)
+        self.horizontalLayout_14.addWidget(self.lb_show)
+        self.frame = QtWidgets.QFrame(self.page_show)
+        self.frame.setMinimumSize(QtCore.QSize(31, 0))
+        self.frame.setMaximumSize(QtCore.QSize(31, 16777215))
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.frame)
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_7.setSpacing(0)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.btn_close = QtWidgets.QPushButton(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_close.sizePolicy().hasHeightForWidth())
+        self.btn_close.setSizePolicy(sizePolicy)
+        self.btn_close.setMinimumSize(QtCore.QSize(0, 20))
+        self.btn_close.setMaximumSize(QtCore.QSize(30, 20))
+        self.btn_close.setStyleSheet("QPushButton#btn_close {\n"
+"    background-color: #e81123; /* Windows 10 红色 */\n"
+"    border: none;\n"
+"    border-radius: 3px; /* 圆角大小 */\n"
+"    color: white; /* “X”图标的颜色 */\n"
+"    font-size: 16px; /* 图标大小 */\n"
+"    font-weight: bold;\n"
+"    padding: 2px; /* 内边距 */\n"
+"    text-align: center; /* 文本居中 */\n"
+"    width: 20px; /* 按钮宽度 */\n"
+"    height: 20px; /* 按钮高度 */\n"
+"    outline: none; /* 移除焦点时的轮廓线 */\n"
+"}\n"
+"\n"
+"QPushButton#btn_close:hover {\n"
+"    background-color: #f1707a; /* 鼠标悬停时的颜色 */\n"
+"}\n"
+"\n"
+"QPushButton#btn_close:pressed {\n"
+"    background-color: #d20f2a; /* 按钮按下时的颜色 */\n"
+"}\n"
+"")
+        self.btn_close.setObjectName("btn_close")
+        self.verticalLayout_7.addWidget(self.btn_close)
+        spacerItem14 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_7.addItem(spacerItem14)
+        self.horizontalLayout_14.addWidget(self.frame)
         self.stackedWidget.addWidget(self.page_show)
         self.verticalLayout_4.addWidget(self.stackedWidget)
         self.frame_19 = QtWidgets.QFrame(self.frame_im)
@@ -1001,6 +1075,7 @@ class Ui_MainWindow(object):
         self.tab.setTabText(self.tab.indexOf(self.tab_1), _translate("MainWindow", "授权管理"))
         self.tab.setTabText(self.tab.indexOf(self.tab_2), _translate("MainWindow", "缺陷检测"))
         self.btn_his1.setText(_translate("MainWindow", "历史数据查看"))
+        self.btn_his_defect.setText(_translate("MainWindow", "不合格品信息查看"))
         self.btn_his2.setText(_translate("MainWindow", "历史趋势预测"))
         self.tab.setTabText(self.tab.indexOf(self.tab_3), _translate("MainWindow", "历史数据"))
         self.btn_ast1.setText(_translate("MainWindow", "使用手册"))
@@ -1022,6 +1097,7 @@ class Ui_MainWindow(object):
         self.lb_para2.setText(_translate("MainWindow", "参数2"))
         self.btn_confirm.setText(_translate("MainWindow", "确认"))
         self.btn_cancel.setText(_translate("MainWindow", "取消"))
+        self.btn_close.setText(_translate("MainWindow", "×"))
         item = self.tb_bc.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "序号"))
         item = self.tb_bc.horizontalHeaderItem(1)

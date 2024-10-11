@@ -1,40 +1,51 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
-import sqlite3
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QSlider, QVBoxLayout
+from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtCore import Qt
+import fitz  # PyMuPDF
 
-DATABASE_FILENAME = 'sentry.db'
 
-class MainWindow(QMainWindow):
+class PDFViewWindow(QWidget):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("PDF Viewer")
         self.initUI()
-        self.initDB()
 
     def initUI(self):
-        self.setWindowTitle('PyQt5 with SQLite')
-        self.setGeometry(100, 100, 600, 400)
+        self.doc = fitz.open('doc/大型金属焊接接口缺陷检测系统_用户使用手册_V1.0.pdf')
+        self.page_count = len(self.doc)
+        self.current_page = 0
 
-    def initDB(self):
-        # 创建或连接到数据库
-        self.conn = sqlite3.connect('example.db')
-        self.cursor = self.conn.cursor()
+        self.label = QLabel(self)
+        self.label.setAlignment(Qt.AlignCenter)
 
-        # 创建一个表
-        self.cursor.execute('''
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL,
-                age INTEGER
-            )
-        ''')
-        self.conn.commit()
+        self.slider = QSlider(Qt.Horizontal, self)
+        self.slider.setMinimum(0)
+        self.slider.setMaximum(self.page_count - 1)
+        self.slider.valueChanged.connect(self.displayPage)
 
-    def insertUser(self, name, age):
-        # 插入数据
-        self.cursor.execute('INSERT INTO users (name, age) VALUES (?, ?)', (name, age))
-        self.conn.commit()
-        QMessageBox.information(self, 'Success', 'User added successfully.')
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.label)
+        layout.addWidget(self.slider)
 
-    def closeEvent(self, event):
-        # 关闭数据库连接
-        self
+        self.displayPage(0)
+
+    def displayPage(self, page_number):
+        self.current_page = page_number
+        page = self.doc[page_number]
+        pix = page.get_pixmap()
+        img = QImage(pix.samples, pix.width, pix.height, pix.stride, QImage.Format_RGB888)
+        qpixmap = QPixmap.fromImage(img)
+        self.label.setPixmap(qpixmap)
+        self.adjustSize()
+
+    def resizeEvent(self, event):
+        super(Window, self).resizeEvent(event)
+        self.displayPage(self.current_page)
+
+
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     window = Window()
+#     window.show()
+#     sys.exit(app.exec_())

@@ -7,7 +7,7 @@ import os
 import sqlite3
 from datetime import datetime
 from PyQt5.QtCore import QThread, pyqtSignal
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QTableWidgetItem, QAbstractItemView
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QTableWidgetItem, QAbstractItemView, QMessageBox
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from PyQt5 import QtSql
@@ -18,6 +18,9 @@ import threading
 
 from weldsentry_window import Ui_MainWindow
 from detect import detect
+from history import HistoryBatchWindow, HistoryDetailWindow
+from pdf_viewer import PDFViewWindow
+
 
 # 多线程解决耗时程序卡gui主线程
 class DetectionThread(QThread):
@@ -51,8 +54,9 @@ class DetectionThread(QThread):
         self.paused = False
         self.pause_event.set()  # 设置事件，使线程恢复
 
-# 数据库文件
-DATABASE_FILENAME = 'sentry.db'
+# 名为sentry.db的sqlite3数据库
+DATABASE_FILENAME = "sentry.db"
+
 
 class Window(QMainWindow, Ui_MainWindow):
     weight = ""
@@ -95,6 +99,14 @@ class Window(QMainWindow, Ui_MainWindow):
         # self.stackedWidget_2.currentChanged.connect(self.run_detect)
         self.tb_detail.cellClicked.connect(self.on_cell_clicked)
         # self.btn_pause.clicked.connect(self.toggle_thread)
+        self.btn_close.clicked.connect( self.on_btn_close_clicked)
+        # 历史记录
+        self.btn_his1.clicked.connect(self.open_his_batch_window)
+        self.btn_his_defect.clicked.connect(self.open_his_detail_window)
+        # 技术支持
+        self.btn_ast1.clicked.connect(self.open_pdf_viewer_window)
+        # 联系方式
+        self.btn_ast2.clicked.connect(self.showContactInfo)
 
 ##### 1. 实现槽函数
     # 选择source打开路径
@@ -122,7 +134,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.le_para2.clear()
         self.textBrowser.clear()
 
-    # 输入显示在左边
+    # 输入显示到左边
     def save_texts(self):
         #TODO 如果所有lineedit都没内容，点击确认时不更新数据，弹出提示框
 
@@ -145,8 +157,9 @@ class Window(QMainWindow, Ui_MainWindow):
 
     # 运行
     def run_model(self):
-        self.tb_bc.clear()
-        self.tb_detail.clear()
+        self.remove_rows_except_first(0)
+        self.remove_rows_except_first(1)
+
         #TODO 如果没有输入则跑default数据，弹窗提示
         #TODO 加载动画
         #done stack切换
@@ -186,8 +199,10 @@ class Window(QMainWindow, Ui_MainWindow):
         bc.append( "合格" if is_qualified else "不合格")
         self.addRow_bc(bc)
 
+        # 不合格就给detail添加
         if not is_qualified :
-            # 给detail添加
+            # 打印到主屏幕
+            # self.terminal.append(result)
             if nr > 0 :
                 item = self.tb_detail.item( nr-1, 0 )
                 dt.append( int(item.text())+1 )
@@ -219,13 +234,15 @@ class Window(QMainWindow, Ui_MainWindow):
         self.exp_path = max(subfolders, key=lambda x: os.path.getmtime(x))
         # 用不着了，可以边detect边添加到表格 # tb_bc提供所有图片 需要合格信息
         # self.addTable_bc()
+        #figure 更新数据库中内容
+        self.save_bc_to_db()
+        self.save_detail_to_db()
+        print( "on_detection_finished" )
 
 
     #TODO 暂停/停止
     def pause_or_stop(self):
         self.toggle_thread()
-
-
 
     #figure  点击表格（内容为图片名）显示图片
     def on_cell_clicked(self, row, column):
@@ -243,9 +260,26 @@ class Window(QMainWindow, Ui_MainWindow):
             if not pixmap.isNull():
                 self.lb_show.setPixmap(pixmap.scaled(self.lb_show.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
 
+    def on_btn_close_clicked(self):
+        self.stackedWidget.setCurrentIndex(0)
 
+    # 打开新窗口查看历史记录
+    def open_his_batch_window(self):
+        self.his_batch_window = HistoryBatchWindow()
+        self.his_batch_window.show()
+    def open_his_detail_window(self):
+        self.his_detail_window = HistoryDetailWindow()
+        self.his_detail_window.show()
+    # 技术支持之pdf查看
+    def open_pdf_viewer_window(self):
+        self.pdf_viewer_window = PDFViewWindow()
+        self.pdf_viewer_window.show()
+    # 技术支持之弹窗联系方式
+    def showContactInfo(self):
+        # 弹出消息框
+        QMessageBox.information(self, '联系方式', 'tel: 18168035472')
 
-##### 2. 工具性函数
+    ##### 2. 工具性函数
     # 向tb_bc中添加一行数据
     def addRow_bc(self, data):
         # 获取当前行数
@@ -317,11 +351,26 @@ class Window(QMainWindow, Ui_MainWindow):
             self.detection_thread.pause()
             self.btn_pause.setText('继续')
 
+    # 清空表格
+    def remove_rows_except_first(self, flag):
+        if flag == 0 :
+            row_count = self.tb_bc.rowCount()
+            # 从最后一行开始删除，直到第二行
+            for row in range(row_count - 1, 0, -1):
+                self.tb_bc.removeRow(row)
+        else :
+            row_count = self.tb_detail.rowCount()
+            # 从最后一行开始删除，直到第二行
+            for row in range(row_count - 1, 0, -1):
+                self.tb_detail.removeRow(row)
+
+
+##### 数据库操作
     # 如不存在，创建新表
     def create_tables_if_not_exist(self):
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS tb_bc (
-                index INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 type TEXT,
                 batch_id TEXT,
                 chief TEXT,
@@ -332,13 +381,56 @@ class Window(QMainWindow, Ui_MainWindow):
         ''')
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS tb_detail (
-                index INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 photo TEXT,
                 defect TEXT,
                 detail TEXT
             )
         ''')
-
         self.conn.commit()
+
+    def save_bc_to_db(self):
+        print("开始准备数据...")
+        for row in range(self.tb_bc.rowCount()):
+            type = self.tb_bc.item(row, 1).text() if self.tb_bc.item(row, 1) else ''
+            batch_id = self.tb_bc.item(row, 2).text() if self.tb_bc.item(row, 2) else ''
+            chief = self.tb_bc.item(row, 3).text() if self.tb_bc.item(row, 3) else ''
+            photo = self.tb_bc.item(row, 4).text() if self.tb_bc.item(row, 4) else ''
+            detect_time = self.tb_bc.item(row, 5).text() if self.tb_bc.item(row, 5) else ''
+            is_qualified = self.tb_bc.item(row, 6).text() if self.tb_bc.item(row, 6) else ''
+            print("添加{}数据到tb_bc...".format(photo))
+            self.cursor.execute('''
+                INSERT INTO tb_bc (type, batch_id, chief, photo, detect_time, is_qualified)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ''', (type, batch_id, chief, photo, detect_time, is_qualified))
+        print( "开始提交")
+        self.conn.commit()
+        print("tb_bc添加完成")
+
+    def save_detail_to_db(self):
+        print("开始准备数据...")
+        for row in range(self.tb_detail.rowCount()):
+            photo = self.tb_detail.item(row, 1).text() if self.tb_bc.item(row, 1) else ''
+            defect = self.tb_detail.item(row, 2).text() if self.tb_bc.item(row, 2) else ''
+            detail = self.tb_detail.item(row, 3).text() if self.tb_bc.item(row, 3) else ''
+            print("添加{}数据到tb_bc...".format(photo))
+            self.cursor.execute('''
+                            INSERT INTO tb_detail (photo, defect, detail)
+                            VALUES (?, ?, ?)
+                        ''', (photo, defect, detail))
+        self.conn.commit()
+        print("tb_detail添加完成")
+
+    def closeEvent(self, event):
+        #done 没有数据库的时候第一次运行数据正常添加，几个batch都可以；但是一旦关闭界面再重开，conn.commit时就会卡退。怀疑是这里除了问题，因为前面createcreate_tables_if_not_exist注释掉时仍不行
+        self.conn.close()
+        super().closeEvent(event)
+        print( "安全退出" )
+
+    # # 异常退出
+    # def on_about_to_quit(self):
+    #     self.conn.close()
+    #     print( "异常退出" )
+
 
 
